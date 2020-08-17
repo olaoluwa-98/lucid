@@ -49,6 +49,11 @@ export default class Migrate extends MigrationsBase {
 	})
 	public batch: number
 
+	@flags.number({
+		description: 'Define custom number of migrations to rollback',
+	})
+	public step: number
+
 	/**
 	 * This command loads the application, since we need the runtime
 	 * to find the migration directories for a given connection
@@ -95,6 +100,7 @@ export default class Migrate extends MigrationsBase {
 		const migrator = new Migrator(this.db, this.application, {
 			direction: 'down',
 			batch: this.batch,
+			step: this.step,
 			connectionName: this.connection,
 			dryRun: this.dryRun,
 		})
